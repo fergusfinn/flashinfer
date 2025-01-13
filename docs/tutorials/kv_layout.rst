@@ -41,6 +41,10 @@ shape ``(indptr[-1], num_heads, head_dim)`` when the layout is ``NHD``.
 
 We can use ``data[indptr[i]:indptr[i+1]]`` to slice the keys (or values) of request ``i``.
 
+Note
+----
+All of the ``indptr`` arrays across the flashinfer library should be of type `int32`. `int64` arrays (used as a default by torch for the `arange <https://pytorch.org/docs/stable/generated/torch.arange.html>` function, for example) can cause indexing errors.
+
 FlashInfer APIs
 ~~~~~~~~~~~~~~~
 
@@ -136,6 +140,10 @@ when stored in a tuple of tensors, ``kv_data = (k_data, v_data)``, and each one 
 
 where ``max_num_pages`` is the maximum number of pages used by all requests, ``page_size`` is the number of tokens
 we fit into each page. ``2`` in single tensor storage means K/V (first one for keys, the second one for values).
+
+Note
+----
+All of the ``indptr`` arrays across the flashinfer library should be of type `int32`. `int64` arrays (used as a default by torch for the `arange <https://pytorch.org/docs/stable/generated/torch.arange.html>` function, for example) can cause indexing errors. The same applies for the `kv_page_indices` and `kv_page_lens` arrays.
 
 FlashInfer APIs
 ~~~~~~~~~~~~~~~
